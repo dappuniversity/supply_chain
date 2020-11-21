@@ -21,7 +21,6 @@ class Navbar extends Component {
             <small className="text-secondary">
               <small id="account">{this.props.account}</small>
             </small>
-
             { this.props.account
               ? <img
                 className="ml-2"
@@ -32,7 +31,6 @@ class Navbar extends Component {
               />
               : <span></span>
             }
-
           </li>
         </ul>
       </nav>
