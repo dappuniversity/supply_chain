@@ -15,124 +15,99 @@ class App extends Component {
   }
 
   async detectAsset() {
-    const urlParams = new URLSearchParams(window.location.search)
-    const address = urlParams.get('address')
-    this.setState({ contractAddress: address })
+    //Get url
   }
 
+  //declare web3
   async loadWeb3() {
-    if(typeof window.ethereum!=='undefined'){
-      const web3 = new Web3(window.ethereum)
-      this.setState({web3: web3})
-      return web3
-    } else {
-      window.alert('Please install MetaMask')
-      window.location.assign("https://metamask.io/")
-    }
+    //if metamask is detected, return web3 and set web3 state
+
+    //else redirect to download MetaMask
   }
 
   async loadBlockchainData() {
-    const web3 = await this.loadWeb3()
-    const accounts = await web3.eth.getAccounts()
-    this.setState({ account: accounts[0] })
-    if(this.state.contractAddress) {
-      await this.loadAsset()
-    }
-    this.setState({ loading: false })
+    //Load web3
+
+    //Get Accounts
+
+    //Set Account
+
+    //if contract is depoloyed, load asset
+
+    //set loading state to false
   }
 
   constructor(props) {
     super(props)
     this.state = {
-      account: '',
-      contractAddress: null,
-      contract: {},
-      name: '',
-      custodian: '',
-      actions: [],
-      loading: true
+      //create states
     }
   }
 
   async loadAsset() {
-    const web3 = await this.loadWeb3()
-    const contract = new web3.eth.Contract(Asset.abi, this.state.contractAddress)
-    const name = await contract.methods.name().call()
-    const status = await contract.methods.status().call()
-    const custodian = await contract.methods.custodian().call()
-    const actions = await contract.getPastEvents('Action', { fromBlock: 0, toBlock: 'latest' } )
+    //assign web3
 
-    this.setState({
-      contract,
-      name,
-      status,
-      custodian,
-      actions
-    })
+    //assign contract
+
+    //get the name of the asset
+
+    //get the status of the asset
+
+    //get current custodian
+
+    //get data from events
+
+    //set above info into state
   }
 
   createAsset = async (name) => {
-    this.setState({ loading: true })
-    const web3 = await this.loadWeb3()
-    const contract = new web3.eth.Contract(Asset.abi)
-    contract.deploy({
-      data: Asset.bytecode,
-      arguments: [name]
-    })
-    .send({
-      from: this.state.account
-    }).once('receipt', async (receipt) => {
-      this.setState({ contractAddress: receipt.contractAddress })
-      await this.loadAsset()
-      this.setState({ loading: false })
-    })
+    //set loading state to true
+
+    //assign web3
+
+    //assign contract
+
+    //deploy contract, once done update data
+
+    //set loading state to false
   }
 
   sendAsset = async (to) => {
-    this.setState({ loading: true })
-    this.state.contract.methods.send(to).send({
-      from: this.state.account
-    }).once('receipt', async (receipt) => {
-      await this.loadAsset()
-      this.setState({ loading: false })
-    })
+    //set loading state to true
+
+    //send assest, once done update data
+
+    //set loading state to false
   }
 
   receiveAsset = async () => {
-    this.setState({ loading: true })
-    this.state.contract.methods.receive().send({
-      from: this.state.account
-    }).once('receipt', async (receipt) => {
-      await this.loadAsset()
-      this.setState({ loading: false })
-    })
+    //set loading state to true
+
+    //receive assest, once done update data
+
+    //set loading state to false
   }
 
+  //Loading UI...
   renderContent() {
-    if(this.state.loading) {
+    if({/* state loading is true */}) {
       return(
         <div id='loader' className='text-center'>
-          <p className='text-center'>Loading...</p>
+          <p className='text-center'>Edit Me</p> {/* Loading */}
         </div>
       )
     }
 
-    if(this.state.contractAddress) {
+    if({/* state contain contract address */}) {
       return(
         <Main
-          name={this.state.name}
-          custodian={this.state.custodian}
-          status={this.state.status}
-          contractAddress={this.state.contractAddress}
-          actions={this.state.actions}
-          receiveAsset={this.receiveAsset}
-          sendAsset={this.sendAsset}
+          //parse states to the Main component
         />
       )
     } else {
       return(
         <Form
-          createAsset={this.createAsset}
+          //parse create asset state to Form component
         />
       ) 
     }
@@ -141,7 +116,7 @@ class App extends Component {
   render() {
     return (
       <div>
-        <Navbar account={this.state.account} />
+        <Navbar /> {/* parse account state to Navbar */}
         <div className='container-fluid mt-5'>
           <div className='row'>
             <main role='main' className="col-lg-12 ml-auto mr-auto">
