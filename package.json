@@ -1,7 +1,7 @@
 {
   "name": "supply_chain",
   "version": "0.1.0",
-  "description": "Blockcain Supply Chain Tutorial App",
+  "description": "Supply Chain DApp",
   "author": "dev@dappuniversity.com",
   "dependencies": {
     "babel-polyfill": "6.26.0",
